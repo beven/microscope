@@ -1,2 +1,9 @@
 .meteor/local
 .meteor/meteorite
+
+### Meteor template
+.meteor/local
+.meteor/meteorite
+
+.idea
+*.iml
