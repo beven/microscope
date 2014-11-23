@@ -1,6 +1,3 @@
-.meteor/local
-.meteor/meteorite
-
+.meteor
 .idea
-*.iml
 .DS_Store
