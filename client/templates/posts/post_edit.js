@@ -13,8 +13,19 @@ Template.postEdit.events({
             title: $(e.target).find('[name=title]').val()
         };
 
-        // TODO: Move to server side
-        var postWithSameLink = Posts.findOne({url: postProperties.url});
+        Meteor.call('postEdit', currentPostId, postProperties, function(error, result) {
+            if(error) {
+                return alert(error.reason);
+            }
+            if(result.postExists) {
+                return alert('This link has already been posted');
+            }
+            Router.go('postPage', {_id: result._id});
+
+        });
+
+        /** Reference only: client side implementation **/
+        /**var postWithSameLink = Posts.findOne({url: postProperties.url});
         if (postWithSameLink) {
             alert('This link has already been posted');
         } else {
@@ -25,7 +36,7 @@ Template.postEdit.events({
                     Router.go('postPage', {_id: currentPostId});
                 }
             });
-        }
+        }**/
     },
     'click .delete': function (e) {
         e.preventDefault();
