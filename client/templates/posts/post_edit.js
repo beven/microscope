@@ -13,17 +13,23 @@ Template.postEdit.events({
             title: $(e.target).find('[name=title]').val()
         };
 
-        Posts.update(currentPostId, {$set: postProperties}, function (error) {
-            if (error) {
-                alert(error.reason);
-            } else {
-                Router.go('postPage', {_id: currentPostId});
-            }
-        });
+        // TODO: Move to server side
+        var postWithSameLink = Posts.findOne({url: postProperties.url});
+        if (postWithSameLink) {
+            alert('This link has already been posted');
+        } else {
+            Posts.update(currentPostId, {$set: postProperties}, function (error) {
+                if (error) {
+                    alert(error.reason);
+                } else {
+                    Router.go('postPage', {_id: currentPostId});
+                }
+            });
+        }
     },
-    'click .delete': function(e) {
+    'click .delete': function (e) {
         e.preventDefault();
-        if(confirm("Delete this post?")) {
+        if (confirm("Delete this post?")) {
             var currentPostId = this._id;
             Posts.remove(currentPostId);
             Router.go('postsList');
